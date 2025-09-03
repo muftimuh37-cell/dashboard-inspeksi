@@ -1,0 +1,30 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(page_title="Dashboard Inspeksi K3", layout="wide")
+
+st.title("Dashboard Inspeksi K3")
+
+# Contoh data dummy
+data = {
+    "Tenant": ["Tenant A", "Tenant B", "Tenant C", "Tenant A", "Tenant B"],
+    "Objek": ["Turbin", "Boiler", "Furnace", "Conveyor", "Crusher"],
+    "Bulan": ["Juli", "Juli", "Agustus", "September", "September"],
+    "Jumlah Temuan": [5, 3, 7, 2, 4]
+}
+
+df = pd.DataFrame(data)
+
+# Filter sidebar
+tenant = st.sidebar.multiselect("Pilih Tenant", df["Tenant"].unique(), default=df["Tenant"].unique())
+bulan = st.sidebar.multiselect("Pilih Bulan", df["Bulan"].unique(), default=df["Bulan"].unique())
+
+df_filtered = df[(df["Tenant"].isin(tenant)) & (df["Bulan"].isin(bulan))]
+
+# Grafik
+fig = px.bar(df_filtered, x="Objek", y="Jumlah Temuan", color="Tenant", barmode="group", title="Jumlah Temuan per Objek")
+st.plotly_chart(fig, use_container_width=True)
+
+# Tabel
+st.info("Silakan upload file Excel untuk melihat dashboard.")
