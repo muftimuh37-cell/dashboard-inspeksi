@@ -96,3 +96,4 @@ if uploaded_file:
         st.error(f"Gagal membaca file: {e}")
 else:
     st.info("⬆️ Silakan upload file Excel untuk memulai analisis.")
+
